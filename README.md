@@ -2,7 +2,8 @@
 Fork from IntelMausiEthernet with WOL functionality after complete shutdown.
 https://github.com/Mieze/IntelMausiEthernet
 
-To enable WOL just add the bootargument "-mausi_wol".
+WOL is enabled by default.
+To disable WOL just add the bootargument "-mausi_no_wol".
 
 This only works as a replacement for IntelMausiEthernet.kext.
 Please make a backup EFI folder on a thumbdrive bevore you try IntelMausiEthernet-WOL.kext.

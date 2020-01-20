@@ -133,7 +133,7 @@ bool IntelMausi::init(OSDictionary *properties)
     result = super::init(properties);
     
     bool tmp = 0;
-    bool wol = PE_parse_boot_argn("-mausi_wol", &tmp, 0);
+    bool wol = ! PE_parse_boot_argn("-mausi_no_wol", &tmp, 0);
     
     if (result) {
         workLoop = NULL;
