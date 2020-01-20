@@ -1,3 +1,16 @@
+# IntelMausiEthernet-WOL
+Fork from IntelMausiEthernet with WOL functionality after complete shutdown.
+https://github.com/Mieze/IntelMausiEthernet
+
+To enable WOL just add the bootargument "-mausi_wol".
+
+This only works as a replacement for IntelMausiEthernet.kext.
+Please make a backup EFI folder on a thumbdrive bevore you try IntelMausiEthernet-WOL.kext.
+
+@xenio came up with this idea:
+https://github.com/Mieze/IntelMausiEthernet/issues/17#issuecomment-424290662
+Huge thanks to him!
+
 # IntelMausiEthernet
 OS X driver for Intel onboard LAN
 
