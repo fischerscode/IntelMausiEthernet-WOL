@@ -45,7 +45,6 @@ jobs:
             build/Debug
             build/Release
           tag: ${{ github.ref }}
-          file_glob: true
 
   analyze-clang:
     name: Analyze Clang
