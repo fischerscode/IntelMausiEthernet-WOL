@@ -36,14 +36,19 @@ jobs:
           path: |
             build/Debug
             build/Release
-      - name: Upload to Release
+      - name: Upload Debug to Release
         if: github.event_name == 'release'
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: |
-            build/Debug
-            build/Release
+          file: build/Debug
+          tag: ${{ github.ref }}
+      - name: Upload Release to Release
+        if: github.event_name == 'release'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/Release
           tag: ${{ github.ref }}
 
   analyze-clang:
