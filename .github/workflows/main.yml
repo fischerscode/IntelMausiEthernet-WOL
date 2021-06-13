@@ -36,19 +36,20 @@ jobs:
           path: |
             build/Debug
             build/Release
-      - name: Upload Debug to Release
+      - name: Set env
+        if: github.event_name == 'release'
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: zip Debug and release 
+        uses: papeloto/action-zip@v1
+        with:
+          files: build/Debug build/Release
+          dest: IntelMausiEthernet-WoL-${{ env.RELEASE_VERSION }}.zip
+      - name: Upload to Release
         if: github.event_name == 'release'
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/Debug
-          tag: ${{ github.ref }}
-      - name: Upload Release to Release
-        if: github.event_name == 'release'
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: build/Release
+          file: IntelMausiEthernet-WoL-${{ env.RELEASE_VERSION }}.zip
           tag: ${{ github.ref }}
 
   analyze-clang:
