@@ -44,6 +44,7 @@ jobs:
         with:
           files: build/Debug build/Release
           dest: IntelMausiEthernet-WoL-${{ env.RELEASE_VERSION }}.zip
+          recursive: false
       - name: Upload to Release
         if: github.event_name == 'release'
         uses: svenstaro/upload-release-action@v2
