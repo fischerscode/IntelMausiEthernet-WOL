@@ -50,6 +50,7 @@ jobs:
   analyze-clang:
     name: Analyze Clang
     runs-on: macos-latest
+    if: false
     env:
       JOB_TYPE: ANALYZE
     steps:
