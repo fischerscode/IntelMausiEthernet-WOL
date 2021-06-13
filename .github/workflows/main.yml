@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+env:
+  PROJECT_TYPE: KEXT
+
+jobs:
+  build:
+    name: Build
+    runs-on: macos-latest
+    env:
+      JOB_TYPE: BUILD
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: xcodebuild -jobs 1 -configuration Debug
+      - run: xcodebuild -jobs 1 -configuration Release
+
+      - name: Upload to Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Artifacts
+          path: |
+            build/Debug
+            build/Release
+      - name: Upload to Release
+        if: github.event_name == 'release'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: |
+            build/Debug
+            build/Release
+          tag: ${{ github.ref }}
+          file_glob: true
+
+  analyze-clang:
+    name: Analyze Clang
+    runs-on: macos-latest
+    env:
+      JOB_TYPE: ANALYZE
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: xcodebuild analyze -quiet -scheme IntelMausiEthernet -configuration Debug CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR="$(pwd)/clang-analyze" && [ "$(find clang-analyze -name "*.html")" = "" ]
+      - run: xcodebuild analyze -quiet -scheme IntelMausiEthernet -configuration Release CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR="$(pwd)/clang-analyze" && [ "$(find clang-analyze -name "*.html")" = "" ]
